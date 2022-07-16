@@ -1,0 +1,202 @@
+﻿@page "/todoapp"
+@using Data
+@inject TodoItemService Service
+
+<div class="btn-group-sm">
+    <button class="btn btn-success" @onclick="@(e => TaskBox = !TaskBox)">Add Task</button>
+    <button class="btn btn-danger" @onclick="@(e => _dataTask.Clear())">Delete All Tasks</button>
+    <button class="btn btn-warning" @onclick="@(e => PersonBox = !PersonBox)">New Person</button>
+</div>
+<br />
+
+@if (TaskBox)
+{
+    <div class="modal" tabindex="-1" style="display:block;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add new Task</h3>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="@_task" OnValidSubmit="@AddTask">
+                        <DataAnnotationsValidator></DataAnnotationsValidator>
+                        <ValidationSummary></ValidationSummary>
+                        <div class="form-group">
+                            <InputText @bind-Value="@_task.TaskName" placeholder="Task Name" class="form-control"></InputText>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-dark" type="submit" @onclick="@(e => CancelTask(_task))">Cancel</button>
+                            <button class="btn btn-primary" type="submit">Add Task</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (PersonBox)
+{
+    <div class="modal" tabindex="-1" style="display:block;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add new Person</h3>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="_person" OnValidSubmit="@AddPerson">
+                        <DataAnnotationsValidator></DataAnnotationsValidator>
+                        <ValidationSummary></ValidationSummary>
+                        <InputText @bind-Value="_person.PersonName" placeholder="Name"></InputText>
+                        <div>
+                            Add to:
+                            <InputSelect @bind-Value="@AddTo">
+                                @foreach (var task in _dataTask)
+                                    {
+                                    <option value="@task.TaskName">@task.TaskName</option>
+                                    }
+                            </InputSelect>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-dark" @onclick="@(e => CancelPerson(_person))">Cancel</button>
+                            <button disabled="@(AddTo=="")" class="btn btn-success" type="submit">Add Person</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<ul style="list-style-type:circle">
+    @foreach (var _t in _dataTask)
+    {
+        <li @key="_t">
+            <input style="width:50%" @bind-value="_t.TaskName" @onblur="@Save" />
+            <button class="btn btn-group-sm btn-outline-danger" @onclick="@(e => DelTask(_t))">Delete</button>
+
+            <ul>
+                @foreach (var per in _t.peopleList)
+                {
+                    <li @key="per">
+                        <input @bind-value="per.PersonName" @onblur="@Save" />
+
+                        <button class="btn btn-group-sm btn-outline-primary" @onclick="@(e => per.ShowMore=!per.ShowMore)">Detail</button>
+                        @if (per.ShowMore)
+                        {
+                            <div class="modal" tabindex="-1" style="display: block; height: 85%; overflow-y: scroll">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3>@per.PersonName</h3>
+                                        </div>
+                                        <div class="modal-body">
+                                            <TodoApp_Item _itemList="per.todoList"></TodoApp_Item>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <EditForm Model="@_dataTask">
+                                                Move to:
+                                                <InputSelect @bind-Value="@MoveTo">
+                                                    @foreach (var task in _dataTask)
+                                                                {
+                                                        <option value="@task.TaskName">@task.TaskName</option>
+                                                                }
+                                                </InputSelect>
+                                            </EditForm>
+                                            <div class="btn-group-sm">
+                                                <button disabled="@(MoveTo=="")" class="btn btn-secondary" @onclick="@(e => MovePerson(_t, per))">Move</button>
+                                                <button class="btn btn-danger" @onclick="@(e => { _t.peopleList.Remove(per); Save(); })">Delete</button>
+                                                <button class="btn btn-primary" type="submit" @onclick="@(e => ClosePerBox(per))">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+</ul>
+
+
+@code {
+    private List<TodoTask> _dataTask = new List<TodoTask>();
+    private TodoTask _task;
+    private List<Person> peopleList1 = new List<Person>();
+    private Person _person;
+    private List<TodoItem> _dataItem = new List<TodoItem>();
+    private TodoItem _item;
+    private string MoveTo = "";
+    private string AddTo = "";
+    private bool TaskBox { get; set; } = false;
+    private bool PersonBox { get; set; } = false;
+
+
+    protected override void OnInitialized()
+    {
+        //base.OnInitialized();
+        _dataTask = Service.GetData();
+        //_task = _dataTask != null && _dataTask.Count > 0 ? _dataTask[0] : null;
+        _task = new TodoTask();
+        _person = new Person();
+    }
+
+    private void AddTask()
+    {
+        _dataTask.Add(new TodoTask(_task));
+        TaskBox = !TaskBox;
+        _task = new TodoTask();
+        Save();
+    }
+
+    private void DelTask(TodoTask t)
+    {
+        _dataTask.Remove(t);
+        Save();
+    }
+
+    private void CancelTask(TodoTask t)
+    {
+        TaskBox = !TaskBox;
+        t.TaskName = null;
+    }
+
+    private void CancelPerson(Person p)
+    {
+        PersonBox = !PersonBox;
+        p.PersonName = null;
+    }
+
+    private void MovePerson(TodoTask _t, Person _p)
+    {
+        _dataTask[_dataTask.FindIndex(a => a.TaskName == MoveTo)].peopleList.Add(new Person(_p));
+        _t.peopleList.Remove(_p);
+        MoveTo = "";
+        Save();
+    }
+
+    private void ClosePerBox(Person p)
+    {
+        p.ShowMore = !p.ShowMore;
+        MoveTo = "";
+        Save();
+    }
+
+    private void AddPerson()
+    {
+        _dataTask[_dataTask.FindIndex(a => a.TaskName == AddTo)].peopleList.Add(new Person(_person));
+        _person = new Person();
+        PersonBox = !PersonBox;
+        AddTo = "";
+        Save();
+    }
+
+    private void DelPerson()
+    {
+
+    }
+
+    private void Save() => Service.SaveChanges();
+
+}

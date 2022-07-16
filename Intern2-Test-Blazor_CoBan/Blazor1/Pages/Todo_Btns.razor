@@ -1,0 +1,42 @@
+﻿@using Data
+
+<div class="input-group mb-3 input-group-prepend">
+    <button class="btn btn-outline-success" @onclick="@AddNewItem">New Task</button>
+    <button class="btn btn-secondary" @onclick="@ClearDone">Remove Done</button>
+    <button class="btn btn-warning" @onclick="@ClearAll">Remove All</button>
+</div>
+
+@code {
+    [Parameter]
+    public List<TodoItem> todoList { get; set; }
+
+    [Parameter]
+    public TodoItem _task { get; set; }
+
+    [Parameter]
+    public EventCallback<List<TodoItem>> Add_Item { get; set; }
+
+    [Parameter]
+    public EventCallback<List<TodoItem>> Clear_Done { get; set; }
+
+    [Parameter]
+    public EventCallback<List<TodoItem>> Clear_All { get; set; }
+
+    public async Task AddNewItem()
+    {
+        todoList.Add(new TodoItem());
+        await Add_Item.InvokeAsync(todoList);
+    }
+
+    public async Task ClearDone()
+    {
+        todoList.RemoveAll(_task => _task.Done);
+        await Clear_Done.InvokeAsync(todoList);
+    }
+
+    public async Task ClearAll()
+    {
+        todoList.Clear();
+        await Clear_All.InvokeAsync(todoList);
+    }
+}

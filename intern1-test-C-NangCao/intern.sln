@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "intern", "intern.csproj", "{BD33F085-9051-4D9D-8C85-2EEF6BAC055C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fibonacci", "Fibonacci", "{0D05025D-2462-4A42-8533-287D4509E98F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci", "Fibonacci\Fibonacci.csproj", "{41708835-4A32-4909-9AE7-BD1C3A1AAC53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LinQ", "LinQ", "{39D1079F-B436-4F75-9F6C-BEAA0A6F5104}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinQ", "LinQ\LinQ.csproj", "{8C231874-2D41-442B-BA6B-4039CCCB0160}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Minesweeper", "Minesweeper", "{8E52401C-F851-4C9D-88EA-33D765D2BC30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper", "Minesweeper\Minesweeper.csproj", "{91B0E837-5AA4-431E-8BD9-864240ACCB34}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD33F085-9051-4D9D-8C85-2EEF6BAC055C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD33F085-9051-4D9D-8C85-2EEF6BAC055C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD33F085-9051-4D9D-8C85-2EEF6BAC055C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD33F085-9051-4D9D-8C85-2EEF6BAC055C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41708835-4A32-4909-9AE7-BD1C3A1AAC53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41708835-4A32-4909-9AE7-BD1C3A1AAC53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41708835-4A32-4909-9AE7-BD1C3A1AAC53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41708835-4A32-4909-9AE7-BD1C3A1AAC53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C231874-2D41-442B-BA6B-4039CCCB0160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C231874-2D41-442B-BA6B-4039CCCB0160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C231874-2D41-442B-BA6B-4039CCCB0160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C231874-2D41-442B-BA6B-4039CCCB0160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91B0E837-5AA4-431E-8BD9-864240ACCB34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91B0E837-5AA4-431E-8BD9-864240ACCB34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91B0E837-5AA4-431E-8BD9-864240ACCB34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91B0E837-5AA4-431E-8BD9-864240ACCB34}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{41708835-4A32-4909-9AE7-BD1C3A1AAC53} = {0D05025D-2462-4A42-8533-287D4509E98F}
+		{8C231874-2D41-442B-BA6B-4039CCCB0160} = {39D1079F-B436-4F75-9F6C-BEAA0A6F5104}
+		{91B0E837-5AA4-431E-8BD9-864240ACCB34} = {8E52401C-F851-4C9D-88EA-33D765D2BC30}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D6D7AC12-9A55-438D-8DFB-9CDD37A80AC7}
+	EndGlobalSection
+EndGlobal

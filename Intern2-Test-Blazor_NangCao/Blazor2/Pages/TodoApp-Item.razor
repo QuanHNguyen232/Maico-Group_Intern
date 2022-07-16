@@ -1,0 +1,40 @@
+﻿@using Data
+
+<div class="input-group mb-3 input-group-prepend">
+    <button class="btn btn-group-sm btn-success" @onclick="@AddNewItem">New Task</button>
+    <button class="btn btn-group-sm btn-danger" @onclick="@ClearAll">Remove All</button>
+</div>
+<ul>
+    @foreach (var item in _itemList)
+    {
+    <li>
+        <input type="checkbox" @bind-value="item.Done" />
+        <div style="text-decoration:@(item.Done? "line-through" : ""); width:50%">
+            <input class="form-control" type="text" @bind-value="item.Title" placeholder="Todo" />
+            <input class="form-control" type="text" @bind-value="item.Note" placeholder="Note" />
+        </div>
+        <button class="input-group-append btn btn-group-sm btn-outline-warning" @onclick="@(e => DelItem(item))">Delete item</button>
+    </li>
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public List<TodoItem> _itemList { get; set; }
+
+    private void AddNewItem()
+    {
+        _itemList.Add(new TodoItem());
+    }
+
+    private void DelItem(TodoItem i)
+    {
+        _itemList.Remove(i);
+        
+    }
+
+    private void ClearAll()
+    {
+        _itemList.Clear();
+    }
+}

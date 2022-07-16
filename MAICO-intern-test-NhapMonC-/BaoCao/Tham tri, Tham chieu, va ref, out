@@ -1,0 +1,6 @@
+Tham trị: qua hàm, giá trị của parameter được lưu vào một vị trí khác trong bộ nhớ, vì vậy những thay đổi giá trị của biến hàm đó không ảnh hưởng tới giá trị của biến gốc
+Tham chiếu: giá trị của biến trong hàm được lưu cùng vị trí trong bộ nhớ, vì vậy thay đổi giá trị của biến hàm đó làm thay đổi giá trị của biến gốc.
+
+Ref và Out:
+Định nghĩa: Ref và Out là 2 từ khóa dùng trong truyền tham chiếu. Tuy nhiên, khi dùng Ref, biến phải được khai báo giá trị trước. Biến khi dùng out không cần tạo giá trị ban đầu
+Sử dụng: từ khóa ref và out phải được ghi ở parameter của hàm, trước tên biến cần truyền giá trị

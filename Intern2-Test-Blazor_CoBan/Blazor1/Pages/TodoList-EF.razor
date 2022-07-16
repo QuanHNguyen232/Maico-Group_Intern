@@ -1,0 +1,55 @@
+﻿@page "/todolist-ef"
+@using Data
+@*@inject TodoDBContextService Service*@    @*delete this part*@
+@inherits OwningComponentBase<TodoDBContextService>
+
+
+<div style="font-size:small">
+    <i>*Note: tasks are saved automatically</i>
+</div>
+<br />
+
+@*<ol class="list-group">
+    @foreach (var task in _data)
+    {
+        <li>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <input type="checkbox" @bind="task.Done" @onblur=@Save class="custom-checkbox" />
+                    </span>
+                </div>
+                <div style="text-decoration:@(task.Done? "line-through" : ""); width:80%">
+                    <input type="text" @bind="task.Title" class="form-control" placeholder="Task" @onblur=@Save @onfocus="@(e=>_item=task)" />
+                    <input type="text" @bind="task.Note" class="form-control" placeholder="Note" @onblur=@Save @onfocus="@(e=>_item=task)" />
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-danger" type="button" @onblur=@Save @onclick="@(e=>_data.Remove(task))">Delete</button>
+                </div>
+            </div>
+        </li>
+    }
+</ol>*@
+
+
+@code {
+    private List<TodoItem> _data = new List<TodoItem>();
+    private TodoItem _item;
+
+    //protected override void OnInitialized()
+    //{
+    //    _data = Service.displayTodos();
+    //    _item = _data != null && _data.Count > 0 ? _data[0] : null;
+    //}
+
+    //private void AddNewTask() => Save();
+
+    //private void ClearDoneTask() => Save();
+
+    //private void RemoveAll() => Save();
+
+    //private void Save()
+    //{
+
+    //}
+}

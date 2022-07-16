@@ -1,0 +1,89 @@
+﻿@page "/pomodoro"
+
+<h1>Pomodoro</h1>
+
+<div class="text-center">
+    <div style="font-size:100px; border:solid; padding:25px">
+        @time.ToString("mm:ss")
+    </div><br />
+
+    <div>
+        <button disabled=@isStart class="btn btn-lg btn-outline-success" @onclick="StartTimer">@(time.Minute == 25 ? "Start" : "Resume")</button>
+        <button disabled=@((!isStart) || (time.Minute==0 && time.Second==0)) class="btn btn-lg btn-outline-danger" @onclick="StopTimer">Stop</button>
+        <button class="btn btn-lg btn-outline-primary" @onclick="ResetTimer">Reset</button>
+    </div><br />
+
+    <div style="font-size:25px">
+        <Count5Min count5=@Count()></Count5Min>
+    </div>
+
+    <div style="font-size:50px">
+        @if (time.Minute == 0 && time.Second == 0)
+        {
+            <div class="alert alert-danger text-center" style="font-size:xx-large">Time ends</div>
+        }
+    </div>
+</div>
+
+
+
+
+@code {
+    private bool isStart = false;
+    private static System.Timers.Timer timer;
+    private DateTime time = new DateTime().AddMinutes(25);
+    private int count = 0;
+
+    public int Count()
+    {
+        if (time.Minute % 5 == 0 && time.Second == 0 && time.Minute < 25)
+        {
+            count++;
+        }
+        return count;
+    }
+
+    private void ResetTimer()
+    {
+        isStart = false;
+        time = new DateTime();
+        time = time.AddMinutes(25);
+        count = 0;
+    }
+
+    public void StartTimer()
+    {
+        isStart = true;
+        if (timer != null)
+        {
+            timer.Dispose();
+        }
+        isStart = true;
+        timer = new System.Timers.Timer(1000);
+        timer.Elapsed += OnTimedEvent;
+        timer.AutoReset = true;
+        timer.Enabled = true;
+    }
+
+    public void StopTimer()
+    {
+        timer.Enabled = false;
+        timer.Stop();
+        isStart = false;
+    }
+
+
+    private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        if (isStart && !(time.Minute == 0 && time.Second == 0))
+        {
+            time = time.AddSeconds(-1);
+            InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            timer.Stop();
+            timer.Enabled = false;
+        }
+    }
+}
